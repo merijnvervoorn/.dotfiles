@@ -4,3 +4,5 @@
 	
 [alias]
     cm = commit -m
+[credential]
+	helper = store
