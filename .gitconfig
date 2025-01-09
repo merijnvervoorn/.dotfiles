@@ -6,3 +6,5 @@
     cm = commit -m
 [credential]
 	helper = store
+[init]
+	defaultBranch = main
