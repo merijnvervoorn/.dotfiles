@@ -38,3 +38,7 @@ function extract() {
     done
 fi
 }
+
+function deepseek() {
+    ollama run deepseek-r1:8b
+}
