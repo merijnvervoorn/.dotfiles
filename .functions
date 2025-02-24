@@ -42,3 +42,10 @@ fi
 function deepseek() {
     ollama run deepseek-r1:8b
 }
+
+
+function lazygit() {
+	git add .
+	git commit -m "$1"
+	git push
+}
