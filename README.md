@@ -28,7 +28,7 @@ These are the custom dotfiles for my personalised installation, they are quite s
 5. **Create .gpgkey file for signing Git commits:**
 
     ```bash
-   touch .gpgkey
+   touch .gpg-key
 
     echo -e "[user]\n\tsigningkey = [Your gpg key]" >> .gpgkey
 
