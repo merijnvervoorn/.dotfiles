@@ -25,6 +25,15 @@ These are the custom dotfiles for my personalised installation, they are quite s
    ./symlink.sh
     ```
 
+5. **Create .gpgkey file for signing Git commits:**
+
+    ```bash
+   touch .gpgkey
+
+    echo -e "[user]\n\tsigningkey = [Your gpg key]" >> .gpgkey
+
+    ```
+
 ## 🔨 Customization
 
 You can modify the script to suit your preferences:
