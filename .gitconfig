@@ -1,7 +1,6 @@
 [user]
 	name = Merijn
 	email = 161606054+merijnvervoorn@users.noreply.github.com
-	signingkey = DE0055A68509A183
 	
 [alias]
     cm = commit -m
