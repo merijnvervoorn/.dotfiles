@@ -5,9 +5,10 @@
   "shell-version": [
     "45",
     "46",
-    "47"
+    "47",
+    "48"
   ],
   "url": "https://github.com/v-dimitrov/gnome-shell-extension-stealmyfocus",
   "uuid": "steal-my-focus-window@steal-my-focus-window",
-  "version": 4
+  "version": 5
 }

@@ -18,3 +18,5 @@
 [commit]
 	gpgsign = true
 
+[url "git@github.com:merijnvervoorn/"]
+	insteadOf = "merijn:"
