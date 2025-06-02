@@ -50,3 +50,41 @@ function lazygit() {
 	git commit -m "$1"
 	git push
 }
+
+function gitpuller() {
+    local base_dir="${1:-$HOME}"
+    local errors_file="/tmp/git_pull_errors_$$.log"
+    local pulled_count=0
+    local failed_count=0
+
+    echo "🔍 Scanning for Git repositories in: $base_dir"
+    echo > "$errors_file"  # Clear error log
+
+    find "$base_dir" -type d -name ".git" \
+        ! -path "*/.cargo/*" \
+        ! -path "*/Trash/*" \
+        ! -path "*/snap/*" \
+        2>/dev/null | while read -r gitdir; do
+            repo_dir="$(dirname "$gitdir")"
+            echo -e "\n📁 Pulling in: $repo_dir"
+
+            if output=$(cd "$repo_dir" && git pull 2>&1); then
+                pulled_count=$((pulled_count + 1))
+                echo "$output"
+            else
+                failed_count=$((failed_count + 1))
+                echo "❌ Failed to pull $repo_dir" >> "$errors_file"
+                echo "$output" >> "$errors_file"
+                echo "❌ Pull failed. Logged error."
+            fi
+    done
+
+    echo -e "\n✅ Done! Repos pulled: $pulled_count"
+    if [[ $failed_count -gt 0 ]]; then
+        echo "❌ Repos with errors: $failed_count"
+        echo "📄 See details in: $errors_file"
+    fi
+}
+
+
+
