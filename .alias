@@ -49,6 +49,11 @@ alias -- -="cd -"                  # Go to previous dir with -
 alias cd.='cd $(readlink -f .)'    # Go to real dir (i.e. if current dir is linked)
 
 alias home="cd ~"
+alias open='nautilus .'
+
+mkcd() { mkdir $1 && cd $1 ; }
+cdls() { cd $1 $$ ls ; }
+
 
 # Network
 
@@ -57,6 +62,7 @@ alias ipl="ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([
 
 # Miscellaneous
 
+alias extract='tar -xvf'
 alias hosts="sudo $EDITOR /etc/hosts"
 alias quit="exit"
 alias week="date +%V"

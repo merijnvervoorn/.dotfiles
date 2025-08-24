@@ -43,7 +43,15 @@ function deepseek() {
     ollama run deepseek-r1:8b
 }
 
+function anythingllm() {
+    bash AnythingLLMDesktop/start
+}
 
+function freq() {
+    history | awk '{print $2}' | sort | uniq -c | sort -nr | head -10
+}
+
+## git extra features 
 function lazygit() {
 	git pull
 	git add .
@@ -86,11 +94,19 @@ function gitpuller() {
     fi
 }
 
-
-function anythingllm() {
-    bash AnythingLLMDesktop/start
+# - clone + cd 
+function git() {
+    if [ "$1" = "cd" ]; then
+        shift
+        # Check if the input starts with 'merijn:'
+        if [[ "$1" == merijn:* ]]; then
+            repo_name="${1#merijn:}"  # Remove 'merijn:' prefix
+        else
+            repo_name="$(basename "$1" .git)"  # Extract repo name from URL
+        fi
+        command git clone "$1" && cd "$repo_name" || return
+    else
+        command git "$@"
+    fi
 }
 
-function freq() {
-    history | awk '{print $2}' | sort | uniq -c | sort -nr | head -10
-}
