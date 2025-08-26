@@ -1,0 +1,109 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "console_title_template": "{{ .Shell }} in {{ .Folder }}",
+  "palette": {
+    "main-bg": "#24283b",
+    "terminal-red": "#f7768e",
+    "pistachio-green": "#9ece6a",
+    "terminal-green": "#73daca",
+    "terminal-yellow": "#e0af68",
+    "terminal-blue": "#7aa2f7",
+    "celeste-blue": "#b4f9f8",
+    "light-sky-blue": "#7dcfff",
+    "terminal-white": "#c0caf5",
+    "white-blue": "#a9b1d6",
+    "blue-bell": "#9aa5ce",
+    "pastal-grey": "#cfc9c2",
+    "terminal-magenta": "#bb9af7",
+    "blue-black": "#565f89",
+    "terminal-black": "#414868",
+    "t-background": "p:main-bg"
+  },
+  "blocks": [
+    {
+      "alignment": "left",
+      "segments": [
+        {
+		  "type": "path",
+		  "style": "plain",
+		  "foreground": "p:terminal-magenta",
+		  "properties": {
+			"style": "full"
+		  },
+		  "template": "\n<b>{{ .Path | replace \"Documents\" \" \" | replace \"Downloads\" \" \" | replace \"Pictures\" \" \" | replace \"Music\" \" \" | replace \"Videos\" \" \" | replace \"Projects\" \" \" | replace \"Desktop\" \" \" }}</b>"
+		},
+        {
+          "type": "git",
+          "style": "plain",
+          "foreground": "p:light-sky-blue",
+          "foreground_templates": [
+            "{{ if gt .Ahead 0 }}p:terminal-blue{{ end }}",
+            "{{ if gt .Behind 0 }}p:celeste-blue{{ end }}"
+          ],
+          "template": " {{ .HEAD }}{{ if gt .Ahead 0 }} ⇡{{ .Ahead }}{{ end }}{{ if gt .Behind 0 }} ⇣{{ .Behind }}{{ end }}",
+          "properties": {
+            "fetch_status": true,
+            "branch_icon": "",
+            "commit_icon": "@"
+          }
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "right",
+      "overflow": "hide",
+      "segments": [
+        {
+          "type": "python",
+          "style": "plain",
+          "foreground": "p:terminal-yellow",
+          "template": " venv: {{ .Venv }}"
+        },
+        {
+          "type": "executiontime",
+          "style": "plain",
+          "foreground": "p:terminal-green",
+          "properties": {
+            "threshold": 5000
+          },
+          "template": " {{ .FormattedMs }}"
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground_templates": [
+            "{{ if gt .Code 0 }}p:terminal-red{{ end }}",
+            "{{ if eq .Code 0 }}p:terminal-magenta{{ end }}"
+          ],
+          "template": "❯"
+        }
+      ],
+      "type": "prompt"
+    }
+  ],
+  "secondary_prompt": {
+    "background": "transparent",
+    "foreground": "p:terminal-magenta",
+    "template": "❯❯ "
+  },
+  "transient_prompt": {
+    "background": "transparent",
+    "foreground_templates": [
+      "{{ if gt .Code 0 }}p:terminal-red{{ end }}",
+      "{{ if eq .Code 0 }}p:terminal-magenta{{ end }}"
+    ],
+    "template": "❯ "
+  },
+  "final_space": true,
+  "version": 3,
+  "terminal_background": "p:t-background"
+}
+
