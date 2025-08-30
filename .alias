@@ -41,6 +41,7 @@ alias aliases="alias | sed 's/=.*//'"
 alias functions="declare -f | grep '^[a-z].* ()' | sed 's/{$//'"
 alias paths='echo -e ${PATH//:/\\n}'
 
+
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
@@ -49,7 +50,7 @@ alias -- -="cd -"                  # Go to previous dir with -
 alias cd.='cd $(readlink -f .)'    # Go to real dir (i.e. if current dir is linked)
 
 alias home="cd ~"
-alias open='nautilus .'
+
 
 mkcd() { mkdir $1 && cd $1 ; }
 cdls() { cd $1 $$ ls ; }

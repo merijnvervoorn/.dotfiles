@@ -107,6 +107,8 @@ unset __conda_setup
 . "$HOME/.cargo/env"
 export PATH=/root/.local/bin:$PATH
 
+eval "$(zoxide init --cmd cd bash)"
+
 # Change oh-my-posh theme, then run 'exec bash'
 eval "$(oh-my-posh init bash --config $HOME/.config/ohmyposh/murminal.json)"
 # eval "$(oh-my-posh init bash --config $HOME/.config/zen.toml)"

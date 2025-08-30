@@ -110,3 +110,16 @@ function git() {
     fi
 }
 
+
+unalias open 2>/dev/null
+unset -f open 2>/dev/null
+
+function open() {
+    if [ -z "$1" ]; then
+        (nohup nautilus . >/dev/null 2>&1 &) 
+    else
+        (nohup xdg-open "$1" >/dev/null 2>&1 &)
+    fi
+}
+
+
