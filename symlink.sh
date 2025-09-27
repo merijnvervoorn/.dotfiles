@@ -17,3 +17,4 @@ ln -s ~/.dotfiles/.profile ~/.profile
 ln -s ~/.dotfiles/gnome-extensions ~/.local/share/gnome-shell/extensions
 ln -s ~/.dotfiles/fonts ~/.local/share/fonts
 sudo ln -s ~/.dotfiles/fonts /usr/share/fonts/other
+ln -s ~/.dotfiles/.icons ~/.icons
