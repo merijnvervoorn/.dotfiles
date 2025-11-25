@@ -122,4 +122,90 @@ function open() {
     fi
 }
 
+function rembg() {
+    # --- Configuration ---
+    local PROJECT_ROOT="$HOME/projects/OsCrop-main"
+    local INPUT_DIR="$PROJECT_ROOT/input"
+    local OUTPUT_DIR="$INPUT_DIR/output_no_bg"
+    # Name of your conda environment (usually 'base' if you didn't create a custom one)
+    local CONDA_ENV="base" 
+    local TARGET="$1"
+
+    # --- MODE 1: Manual (No arguments) ---
+    if [ -z "$TARGET" ]; then
+        echo "No file specified. Running in manual mode..."
+        
+        pushd "$PROJECT_ROOT" > /dev/null
+        # Explicitly activate 'base' to prevent argument leakage
+        source "$HOME/miniconda3/bin/activate" "$CONDA_ENV"
+        python oscrop_bg_remover.py
+        popd > /dev/null
+        
+        echo "Manual processing complete."
+        return 0
+    fi
+
+    # --- MODE 2: Auto-Copy, Retrieve & Clean ---
+    
+    # 1. Resolve Paths
+    # We use absolute paths to ensure we don't get lost when switching directories
+    local ABS_TARGET=$(realpath "$TARGET")
+    local FINAL_DEST=""
+    
+    if [ -d "$ABS_TARGET" ]; then
+        FINAL_DEST="$ABS_TARGET" 
+    else
+        FINAL_DEST=$(dirname "$ABS_TARGET")
+    fi
+
+    # 2. Pre-Clean Staging
+    rm -f "$INPUT_DIR"/* 2>/dev/null
+    rm -f "$OUTPUT_DIR"/* 2>/dev/null
+
+    # 3. Copy to Input
+    echo "Copying files to staging area..."
+    if [ -d "$ABS_TARGET" ]; then
+        cp "$ABS_TARGET"/* "$INPUT_DIR/"
+    else
+        cp "$ABS_TARGET" "$INPUT_DIR/"
+    fi
+
+    # 4. Run Process
+    echo "--- Processing Images ---"
+    pushd "$PROJECT_ROOT" > /dev/null
+    
+    # FIX IS HERE: We explicitly pass the environment name 
+    # so 'activate' doesn't try to use your folder path as the env name.
+    source "$HOME/miniconda3/bin/activate" "$CONDA_ENV"
+    
+    python oscrop_bg_remover.py
+    popd > /dev/null
+
+    # 5. Retrieve and Rename
+    echo "--- Retrieving Output ---"
+    
+    local count=$(ls -1 "$OUTPUT_DIR" 2>/dev/null | wc -l)
+    
+    if [ "$count" -eq 0 ]; then
+        echo "No output files found. Check your Python script or input files."
+        # Don't clean input here so you can debug
+        return 1
+    fi
+
+    for file in "$OUTPUT_DIR"/*; do
+        [ -e "$file" ] || continue
+        
+        local filename=$(basename "$file")
+        local name="${filename%.*}"
+        
+        mv "$file" "$FINAL_DEST/${name}-transparent.png"
+    done
+
+    # 6. Final Cleanup
+    echo "--- Cleaning Staging Folders ---"
+    rm -f "$INPUT_DIR"/* 2>/dev/null
+    rm -f "$OUTPUT_DIR"/* 2>/dev/null
+
+    echo "Success! Processed files moved to: $FINAL_DEST"
+}
 
